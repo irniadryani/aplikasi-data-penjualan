@@ -14,9 +14,9 @@ const Chart = ({ dataTransaksi }) => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
 
-  // Filter data transaksi berdasarkan rentang waktu yang dipilih
+
   const filteredDataTransaksi = dataTransaksi?.filter((item) => {
-    if (!selectedMonth && !selectedYear) return true; // Tampilkan semua data jika tidak ada rentang waktu yang dipilih
+    if (!selectedMonth && !selectedYear) return true; 
 
     const date = new Date(item.tanggal);
     const month = date.getMonth() + 1;
@@ -28,11 +28,10 @@ const Chart = ({ dataTransaksi }) => {
     );
   });
 
-  // Hitung jumlah transaksi untuk setiap jenis barang dari data yang sudah difilter
   const dataByJenisBarang = filteredDataTransaksi?.reduce((result, item) => {
-    const jenisBarang = item.barang?.jenis_barang; // Perbaiki di sini dengan menambahkan '?'
+    const jenisBarang = item.barang?.jenis_barang; 
 
-    if (!jenisBarang) return result; // Tambahkan penanganan jika jenisBarang bernilai null atau undefined
+    if (!jenisBarang) return result; 
 
     if (!result[jenisBarang]) {
       result[jenisBarang] = 0;
@@ -43,13 +42,11 @@ const Chart = ({ dataTransaksi }) => {
     return result;
   }, {});
 
-  // Ubah data menjadi format yang bisa digunakan oleh BarChart
   const chartData = Object.keys(dataByJenisBarang || {}).map((jenisBarang) => ({
     jenisBarang,
     jumlah_transaksi: dataByJenisBarang[jenisBarang],
   }));
 
-  // Daftar bulan dan tahun unik dari data transaksi
   const uniqueMonths = [
     ...new Set(
       dataTransaksi?.map((item) => new Date(item.tanggal).getMonth() + 1) || [] // Perbaiki di sini dengan menambahkan '?'
@@ -61,7 +58,6 @@ const Chart = ({ dataTransaksi }) => {
     ),
   ];
 
-  // Handle perubahan rentang waktu
   const handleMonthChange = (e) => setSelectedMonth(e.target.value);
   const handleYearChange = (e) => setSelectedYear(e.target.value);
 
